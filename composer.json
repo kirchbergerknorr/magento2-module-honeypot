@@ -1,0 +1,20 @@
+{
+  "name": "snk/magento2-module-honeypot",
+  "description": "Simple honeypot module for Magento 2",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "magento/module-customer": "102.0.*"
+  },
+  "license": [
+    "MIT"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Snk\\Honeypot\\": "src"
+    }
+  }
+}

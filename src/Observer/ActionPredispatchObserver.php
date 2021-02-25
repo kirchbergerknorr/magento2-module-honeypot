@@ -74,14 +74,16 @@ class ActionPredispatchObserver implements ObserverInterface
         /** @var Http $request */
         $request = $observer->getEvent()->getData('request');
 
-        if ($request->getParam('email') && $this->config->isEnabledForAction($request->getFullActionName())) {
-            $this->messageManager->addErrorMessage('Please, check your data again.');
-            $this->responseFactory->create()->setRedirect($this->redirect->getRefererUrl())->sendResponse();
-            $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
-            return;
-        }
+        if ($this->config->isEnabledForAction($request->getFullActionName())) {
+            if ($request->getParam('email')) {
+                $this->messageManager->addErrorMessage('Please, check your data again.');
+                $this->responseFactory->create()->setRedirect($this->redirect->getRefererUrl())->sendResponse();
+                $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+                return;
+            }
 
-        $emailName = $this->session->getData(Config::EMAIL_NAME_SESSION_KEY);
-        $request->setPostValue('email', $request->getParam($emailName));
+            $emailName = $this->session->getData(Config::EMAIL_NAME_SESSION_KEY);
+            $request->setPostValue('email', $request->getParam($emailName));
+        }
     }
 }
